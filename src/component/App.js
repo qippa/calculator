@@ -13,15 +13,22 @@ class App extends React.Component {
 	}
 
 	clickEvent(e) {
+		//get stored variable
 		let newCalcul = this.state.calcul; 
 		let newValue = this.state.value;
 		let newResult = this.state.result;
 
+		//if button is not a number or .
 		if(isNaN(e) && e !== ".") {
 			if(e === "=") {
-				newCalcul = ""; 
-				newValue = "";
-				newResult = eval(eval(this.state.calcul + this.state.value).toFixed(13));
+				//must have something in new value for calculate
+				if(newValue !== ""){
+					newCalcul = ""; 
+					newValue = "";
+					//twice eval to avoid js decimal problems
+					//Number() to delete leading 0
+					newResult = eval(eval(this.state.calcul + Number(this.state.value)).toFixed(13));
+				}
 			} else if(e === "C") {
 				newCalcul = ""; 
 				newValue = "";
@@ -33,24 +40,29 @@ class App extends React.Component {
 				} else {
 					newValue = eval(newValue * -1);
 				}
+			//all operators
 			} else {
 				if(newResult !== "") {
 					newCalcul = newResult + e;
 					newResult = "";
 				} else {
 					if(newValue === ""){
+						//replace previous operator 
 						newCalcul = newCalcul.replace(/.$/, e);
 					} else {
-						newCalcul = eval(this.state.calcul + this.state.value) + e;
+						newCalcul = eval(eval(this.state.calcul + Number(this.state.value)).toFixed(13)) + e;
 						newValue = "";
 					}
 				}
 			}
 		} else {
-			if(newResult !== "") {
-				newResult = "";
+			//check if never use dot
+			if((e === "." && newValue.indexOf(".") === -1) || e !== ".") {
+				if(newResult !== "") {
+					newResult = "";
+				}
+				newValue += e;
 			}
-			newValue += e;
 		}
 
 		this.setState({
