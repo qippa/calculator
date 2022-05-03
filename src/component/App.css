@@ -1,0 +1,29 @@
+.screen {
+  display: flex;
+  flex-direction: column;
+  height: 56px;
+  width: 280px;
+  background-color: dimgrey;
+}
+
+.value {
+  color: white;
+  height: 28px;
+}
+
+.calcul {
+  color: lightgrey;
+  height: 28px;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  width: 280px;
+}
+
+input {
+  flex: 1 0 21%;
+  width: 60px;
+  height: 40px;
+}
